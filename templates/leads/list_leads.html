@@ -1,0 +1,65 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+      {% if request.user.is_organizer %}
+      <button class="flex mb-3 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"><a href="{% url 'leads:create_lead' %}">Create a new lead</a></button>
+      {% endif %}
+      <div class="text-gray-600 font-medium mb-3">Signed leads</div>
+      <div class="w-full mr-auto overflow-auto">
+        <table class="table-auto w-full text-left whitespace-no-wrap">
+          <thead>
+            <tr>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">First name</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Last name</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">Category</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">Detail</th>
+            
+            </tr>
+          </thead>
+          <tbody>           
+            {% for lead in leads %}
+            <tr>
+              <td class="px-4 py-3"><a href="{% url 'leads:detail_lead' lead.id %}">{{ lead.first_name }}</a></td>
+              <td class="px-4 py-3">{{ lead.last_name }}</td>
+              <td class="px-4 py-3">{{ lead.category.name }}</td>
+              <td class="px-4 py-3">
+                <button class="flex mb-3 text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-500 rounded"><a href="{% url 'leads:detail_lead' lead.id %}">detail</a></button>
+              </td>
+            </tr>
+            {% endfor %}           
+          </tbody>
+        </table>
+      </div>
+      {% if unsigned_leads %}
+      <div class="font-medium mb-3">Unsigned leads</div>
+      <div class="w-full mr-auto overflow-auto">
+        <table class="table-auto w-full text-left whitespace-no-wrap">
+          <thead>
+            <tr>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">First name</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Last name</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Category</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">Detail</th>
+            </tr>
+          </thead>
+          <tbody>           
+            {% for lead in unsigned_leads %}
+            <tr>
+              <td class="px-4 py-3"><a href="{% url 'leads:detail_lead' lead.id %}">{{ lead.first_name }}</a></td>
+              <td class="px-4 py-3">{{ lead.last_name }}</td>
+              <td class="px-4 py-3">{{ lead.category.name }}</td>
+              <td class="px-4 py-3">
+                <button class="flex mb-3 text-white bg-indigo-400 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-500 rounded"><a href="{% url 'leads:detail_lead' lead.id %}">detail</a></button>
+              </td>
+              </td>
+            </tr>
+            {% endfor %}           
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock content %}
